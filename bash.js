@@ -1,22 +1,49 @@
-//output a prompt
+const pwd = require('./pwd');
+const ls = require('./ls');
+const cat = require('./cat');
+const curl = require('./curl');
+const date = require('./date');
+const echo = require('./echo');
+
+const done = output => {
+  process.stdout.write(output);
+  process.stdout.write('\nprompt > ');
+};
+
 process.stdout.write('prompt > ');
 
-// The stdin 'data' event fires after a user types in a line
 process.stdin.on('data', data => {
-  const cmd = data.toString().trim(); // remoce the newline
+  const [cmd, arg] = data
+    .toString()
+    .trim() // remove the newline
+    .split(' ');
 
-  if (cmd === 'pwd') {
-    const pwd = require('./pwd');
-    pwd();
-  }
-  if (cmd === 'ls') {
-    const ls = require('./ls');
-    ls();
-  }
-  if (cmd.join(' ')[0] === 'cat') {
-    const fileName = cmd.join(' ')[1];
-  } else {
-    process.stdout.write('You typed: ' + cmd);
-    process.stdout.write('\nprompt > ');
+  switch (cmd) {
+    case 'pwd':
+      pwd(done);
+      break;
+
+    case 'ls':
+      ls(done);
+      break;
+
+    case 'cat':
+      cat(done, arg);
+      break;
+
+    case 'curl':
+      curl(done, arg);
+      break;
+
+    case 'date':
+      date(done);
+      break;
+
+    case 'echo':
+      echo(done, arg);
+      break;
+
+    default:
+      done(`command not found: ${cmd}`);
   }
 });

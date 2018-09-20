@@ -1,12 +1,14 @@
 const fs = require('fs');
 
-module.exports = () => {
+module.exports = done => {
   fs.readdir('./', 'utf8', (err, file) => {
     if (err) {
-      throw err;
+      // throw err;
+      done('Something went wrong!');
     } else {
-      process.stdout.write(file.join('\n'));
-      process.stdout.write('\nprompt > ');
+      done(file.join('\n'));
+      // process.stdout.write(file.join('\n'));
+      // process.stdout.write('\nprompt > ');
     }
   });
 };

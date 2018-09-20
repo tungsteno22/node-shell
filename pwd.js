@@ -1,6 +1,5 @@
-let directory = process.cwd();
+const directory = process.cwd();
 
-module.exports = () => {
-  process.stdout.write(directory);
-  process.stdout.write('\nprompt > ');
+module.exports = done => {
+  done(directory);
 };
